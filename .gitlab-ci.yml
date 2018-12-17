@@ -1,0 +1,12 @@
+image: golang:1.11.2
+build:
+  stage: build
+  script:
+    - go build
+  artifacts:
+    name: "$CI_PROJECT_NAME-$CI_COMMIT_TAG"
+    paths:
+      - ./aws-ls
+    when: on_success
+  only:
+    - tags
