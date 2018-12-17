@@ -29,13 +29,13 @@ Use "aws-ls [command] --help" for more information about a command.
 
 Lists ec2 instaces.
 
-#### Default Attributes:
+**Default Attributes**:
 - Name Tag
 - Instance ID
 - Private IP Address
 - Status (running, stopped, terminated etc.)
 
-#### Example:
+**Example**:
 ```
 ➜  ~ aws-ls ec2
 INDEX    NAME             INSTANCE_ID            PRIVATE_IP    STATUS
