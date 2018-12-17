@@ -47,7 +47,7 @@ func init() {
 	// Here you will define your flags and configuration settings.
 	// Cobra supports persistent flags, which, if defined here,
 	// will be global for your application.
-	rootCmd.PersistentFlags().StringVar(&profile, "profile", "default", "AWS profile to use")
+	rootCmd.PersistentFlags().StringVarP(&profile, "profile", "p", "default", "AWS profile to use")
 	rootCmd.PersistentFlags().BoolVarP(&noHeaders, "no-headers", "n", false, "Supress column names")
 
 	// Cobra also supports local flags, which will only run

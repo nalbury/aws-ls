@@ -17,6 +17,7 @@ package cmd
 import (
 	"fmt"
 	"os"
+	"sort"
 	"strconv"
 	"strings"
 	"text/tabwriter"
@@ -37,6 +38,16 @@ func nameTag(tags []*ec2.Tag) string {
 	return name
 }
 
+func cleanStringP(s *string) string {
+	var clean string
+	if s != nil {
+		clean = *s
+	} else {
+		clean = "None"
+	}
+	return clean
+}
+
 func listInstances(profile string, noHeaders bool) {
 	sess := session.Must(session.NewSessionWithOptions(session.Options{
 		SharedConfigState: session.SharedConfigEnable,
@@ -55,11 +66,19 @@ func listInstances(profile string, noHeaders bool) {
 			titleRow := strings.Join(titleAttributes, "\t")
 			fmt.Fprintln(w, titleRow)
 		}
+		reservations := result.Reservations
+
+		sort.Slice(reservations, func(i, j int) bool {
+			return nameTag(reservations[i].Instances[0].Tags) < nameTag(reservations[j].Instances[0].Tags)
+		})
 		for i, instance := range result.Reservations {
 			stringdex := strconv.Itoa(i)
 			inst := *instance.Instances[0]
 			instanceName := nameTag(inst.Tags)
-			instanceAttributes := []string{stringdex, instanceName, *inst.InstanceId, *inst.PrivateIpAddress, *inst.State.Name}
+			instanceId := cleanStringP(inst.InstanceId)
+			privateIp := cleanStringP(inst.PrivateIpAddress)
+			status := cleanStringP(inst.State.Name)
+			instanceAttributes := []string{stringdex, instanceName, instanceId, privateIp, status}
 			instanceRow := strings.Join(instanceAttributes, "\t")
 			fmt.Fprintln(w, instanceRow)
 		}
