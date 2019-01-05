@@ -91,7 +91,8 @@ func listLoadBalancers(profile string, noHeaders bool) {
 var elbCmd = &cobra.Command{
 	Use:   "elb",
 	Short: "ls your ec2 load balancers",
-	Long:  `ls your ec2 instances. Provides the DNS name, instance count, health check, and listener configuration.`,
+	Long: `ls your ec2 load balancers. 
+Provides the DNS name, instance count, health check, and listener configuration.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		listLoadBalancers(profile, noHeaders)
 	},

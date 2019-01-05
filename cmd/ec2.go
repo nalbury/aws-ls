@@ -90,7 +90,8 @@ func listInstances(profile string, noHeaders bool) {
 var ec2Cmd = &cobra.Command{
 	Use:   "ec2",
 	Short: "ls your ec2 instances",
-	Long:  `ls your ec2 instances. Provides instance id, name, status and private IP.`,
+	Long: `ls your ec2 instances. 
+Provides instance id, name, status and private IP.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		listInstances(profile, noHeaders)
 	},
