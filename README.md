@@ -44,6 +44,46 @@ INDEX    NAME             INSTANCE_ID            PRIVATE_IP    STATUS
 2        my-instance-3    i-0a638fd2cxdedbdb5    1.2.3.4       terminated
 ```
 
+### elb
+
+Lists elastic load balancers
+
+**Default Attributes**:
+- DNS Name
+- Instance Count
+- Health Check Endpoint
+- Listener Configuration
+
+**Example**:
+```
+➜  ~ aws-ls elb
+INDEX    DNS_NAME                                                     INSTANCE_COUNT    HEALTH_CHECK          LISTENERS
+0        my-elb-123456789.us-east-1.elb.amazonaws.com                 0                 HTTP:80/index.html    HTTPS:443 -> HTTP:80
+1        internal-other-elb-1234566789.us-east-1.elb.amazonaws.com    4                 TCP:1234              SSL:443 -> TCP:1234
+```
+
+### asg
+
+Lists auto scaling groups.
+
+**Default Attributes**:
+- Name
+- Desired Instances
+- Current Instances
+- Min Instances
+- Max Instances
+- Launch Config Name
+
+**Example**:
+```
+➜  ~ aws-ls asg
+INDEX    NAME           DESIRED    CURRENT    MIN    MAX    LAUNCH_CONFIG
+0        nginx-asg      3          3          1      3      nginx-launch-config
+1        backend-asg    3          3          1      3      backend-launch-config
+```
+
+
+
 ## Installing
 
 [Downloads for each release can be found here.](https://gitlab.pizza/nalbury/aws-ls/tags)
