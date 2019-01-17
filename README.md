@@ -86,7 +86,7 @@ INDEX    NAME           DESIRED    CURRENT    MIN    MAX    LAUNCH_CONFIG
 
 ## Installing
 
-[Downloads for each release can be found here.](https://gitlab.pizza/nalbury/aws-ls/tags)
+[Downloads for each release can be found here.](https://github.com/nalbury/aws-ls/releases)
 
 You can also build from source (requires Go 1.11 for go.mod support):
 ```
