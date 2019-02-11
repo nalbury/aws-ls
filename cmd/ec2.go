@@ -62,7 +62,7 @@ func listInstances(profile string, noHeaders bool) {
 		const padding = 4
 		w := tabwriter.NewWriter(os.Stdout, 0, 0, padding, ' ', 0)
 		if !noHeaders {
-			titleAttributes := []string{"INDEX", "NAME", "INSTANCE_ID", "PRIVATE_IP", "STATUS"}
+			titleAttributes := []string{"INDEX", "NAME", "INSTANCE_ID", "PRIVATE_IP", "INSTANCE_TYPE", "STATUS"}
 			titleRow := strings.Join(titleAttributes, "\t")
 			fmt.Fprintln(w, titleRow)
 		}
@@ -77,8 +77,9 @@ func listInstances(profile string, noHeaders bool) {
 			instanceName := nameTag(inst.Tags)
 			instanceId := cleanStringP(inst.InstanceId)
 			privateIp := cleanStringP(inst.PrivateIpAddress)
+			instanceType := cleanStringP(inst.InstanceType)
 			status := cleanStringP(inst.State.Name)
-			instanceAttributes := []string{stringdex, instanceName, instanceId, privateIp, status}
+			instanceAttributes := []string{stringdex, instanceName, instanceId, privateIp, instanceType, status}
 			instanceRow := strings.Join(instanceAttributes, "\t")
 			fmt.Fprintln(w, instanceRow)
 		}
