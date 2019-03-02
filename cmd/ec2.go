@@ -55,7 +55,17 @@ func listInstances(profile string, noHeaders bool) {
 	}))
 	ec2Svc := ec2.New(sess)
 
-	result, err := ec2Svc.DescribeInstances(nil)
+	var instances []*ec2.Instance
+	err := ec2Svc.DescribeInstancesPages(nil,
+		func(page *ec2.DescribeInstancesOutput, lastPage bool) bool {
+			for _, reservation := range page.Reservations {
+				for _, instance := range reservation.Instances {
+					instances = append(instances, instance)
+				}
+			}
+			return lastPage
+		})
+
 	if err != nil {
 		fmt.Println("Error", err)
 	} else {
@@ -66,14 +76,14 @@ func listInstances(profile string, noHeaders bool) {
 			titleRow := strings.Join(titleAttributes, "\t")
 			fmt.Fprintln(w, titleRow)
 		}
-		reservations := result.Reservations
 
-		sort.Slice(reservations, func(i, j int) bool {
-			return nameTag(reservations[i].Instances[0].Tags) < nameTag(reservations[j].Instances[0].Tags)
+		sort.Slice(instances, func(i, j int) bool {
+			return nameTag(instances[i].Tags) < nameTag(instances[j].Tags)
 		})
-		for i, instance := range result.Reservations {
+
+		for i, instance := range instances {
 			stringdex := strconv.Itoa(i)
-			inst := *instance.Instances[0]
+			inst := *instance
 			instanceName := nameTag(inst.Tags)
 			instanceId := cleanStringP(inst.InstanceId)
 			privateIp := cleanStringP(inst.PrivateIpAddress)
