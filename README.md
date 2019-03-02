@@ -2,6 +2,14 @@
 
 A quick easy alternative to parsing aws cli output, or the AWS web console for listing all resources of a particular type (e.g. ec2 instances). 
 
+## Installation(macos)
+
+To install to `/usr/local/bin`
+
+```
+curl -o /usr/local/bin/aws-ls https://s3.amazonaws.com/aws-ls/latest/macos/aws-ls && chmod +x /usr/local/bin/aws-ls
+```
+
 ## Usage
 
 ```
@@ -38,10 +46,10 @@ Lists ec2 instaces.
 **Example**:
 ```
 ➜  ~ aws-ls ec2
-INDEX    NAME             INSTANCE_ID            PRIVATE_IP    STATUS
-0        my-instance-1    i-0c3b898n45039f7a9    1.2.3.4       running
-1        my-instance-2    i-0e639e5ceb5cb0637    1.2.3.4       stopped
-2        my-instance-3    i-0a638fd2cxdedbdb5    1.2.3.4       terminated
+INDEX    NAME             INSTANCE_ID            PRIVATE_IP    INSTANCE_TYPE    STATUS
+0        my-instance-1    i-0c3b898n45039f7a9    1.2.3.4       t2.medium        running
+1        my-instance-2    i-0e639e5ceb5cb0637    1.2.3.4       t2.medium        stopped
+2        my-instance-3    i-0a638fd2cxdedbdb5    1.2.3.4       c5.xlarge        terminated
 ```
 
 ### elb
