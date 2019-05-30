@@ -22,20 +22,39 @@ import (
 	"strings"
 	"text/tabwriter"
 
+	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/ec2"
 	"github.com/spf13/cobra"
 )
 
-func nameTag(tags []*ec2.Tag) string {
+func nameTag(instanceTags []*ec2.Tag) string {
 	var name string
-	for _, tag := range tags {
+	for _, tag := range instanceTags {
 		if *tag.Key == "Name" {
 			name = *tag.Value
 		}
 	}
 
 	return name
+}
+
+func createTagFilters(tagFilters []string) []*ec2.Filter {
+	var filters []*ec2.Filter
+	for _, tag := range tagFilters {
+		keyValue := strings.Split(tag, ":")
+		key := keyValue[0]
+		value := keyValue[1]
+		filter := ec2.Filter{
+			Name: aws.String("tag:" + key),
+			Values: []*string{
+				aws.String(value),
+			},
+		}
+
+		filters = append(filters, &filter)
+	}
+	return filters
 }
 
 func cleanStringP(s *string) string {
@@ -48,15 +67,19 @@ func cleanStringP(s *string) string {
 	return clean
 }
 
-func listInstances(profile string, noHeaders bool) {
+func listInstances(profile string, noHeaders bool, tags []string) {
 	sess := session.Must(session.NewSessionWithOptions(session.Options{
 		SharedConfigState: session.SharedConfigEnable,
 		Profile:           profile,
 	}))
 	ec2Svc := ec2.New(sess)
+	filters := createTagFilters(tags)
+	input := &ec2.DescribeInstancesInput{
+		Filters: filters,
+	}
 
 	var instances []*ec2.Instance
-	err := ec2Svc.DescribeInstancesPages(nil,
+	err := ec2Svc.DescribeInstancesPages(input,
 		func(page *ec2.DescribeInstancesOutput, lastPage bool) bool {
 			for _, reservation := range page.Reservations {
 				for _, instance := range reservation.Instances {
@@ -104,7 +127,7 @@ var ec2Cmd = &cobra.Command{
 	Long: `ls your ec2 instances. 
 Provides instance id, name, status and private IP.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		listInstances(profile, noHeaders)
+		listInstances(profile, noHeaders, tags)
 	},
 }
 

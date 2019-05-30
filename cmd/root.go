@@ -23,6 +23,7 @@ import (
 
 var profile string
 var noHeaders bool
+var tags []string
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
@@ -49,6 +50,7 @@ func init() {
 	// will be global for your application.
 	rootCmd.PersistentFlags().StringVarP(&profile, "profile", "p", "default", "AWS profile to use")
 	rootCmd.PersistentFlags().BoolVarP(&noHeaders, "no-headers", "n", false, "Supress column names")
+	rootCmd.PersistentFlags().StringSliceVarP(&tags, "tags", "t", []string{}, "Tag filters in the format Key:Value,Key2:Value2")
 
 	// Cobra also supports local flags, which will only run
 	// when this action is called directly.
