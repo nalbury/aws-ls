@@ -69,7 +69,7 @@ var ecrCmd = &cobra.Command{
 	Use:   "ecr",
 	Short: "ls your ecr repos",
 	Long: `ls your ecr repos.
-Provides the name, and ...`,
+Provides the name, and uri of each repo`,
 	Run: func(cmd *cobra.Command, args []string) {
 		listEcrRepos(profile, noHeaders)
 	},

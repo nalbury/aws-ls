@@ -20,13 +20,17 @@ Usage:
   aws-ls [command]
 
 Available Commands:
+  asg         ls your auto scaling groups
   ec2         ls your ec2 instances
+  ecr         ls your ecr repos
+  elb         ls your ec2 load balancers
   help        Help about any command
 
 Flags:
   -h, --help             help for aws-ls
   -n, --no-headers       Supress column names
   -p, --profile string   AWS profile to use (default "default")
+  -t, --tags strings     Tag filters in the format Key:Value,Key2:Value2
 
 Use "aws-ls [command] --help" for more information about a command.
 ```
@@ -90,6 +94,21 @@ INDEX    NAME           DESIRED    CURRENT    MIN    MAX    LAUNCH_CONFIG
 1        backend-asg    3          3          1      3      backend-launch-config
 ```
 
+
+### ecr
+
+Lists ecr repos
+**Default Attributes**:
+- Name
+- Uri
+
+**Example**
+```
+➜  ~ aws-ls ecr
+INDEX    NAME       URI
+0        nginx-image    1234566789.dkr.ecr.us-east-1.amazonaws.com/nginx-image
+1        backend-image    1234566789.dkr.ecr.us-east-1.amazonaws.com/backend-image
+```
 
 
 ## Installing
