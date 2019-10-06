@@ -14,7 +14,7 @@
 
 package main
 
-import "gitlab.pizza/nalbury/aws-ls/cmd"
+import "github.com/nalbury/aws-ls/cmd"
 
 func main() {
 	cmd.Execute()
